@@ -1,5 +1,3 @@
-variable "instance_name" {
-  description = "Value of the Name tag for the EC2 instance"
-  type        = string
-  default     = "ExampleAppServerVarName"
+data "aws_availability_zones" "available" {
+  state = "available"
 }
