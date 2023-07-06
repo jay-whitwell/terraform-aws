@@ -1,8 +1,65 @@
 resource "aws_vpc" "main" {
-  cidr_block       = "10.0.0.0/24"
+  cidr_block       = "10.0.0.0/16"
   instance_tenancy = "default"
 
   tags = {
     Name = "main_vpc"
   }
 }
+
+resource "aws_subnet" "subnet-1" {
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = "10.0.1.0/24"
+  availability_zone = "eu-west-2a"
+
+  tags = {
+    Name = "subnet-1"
+  }
+}
+
+resource "aws_subnet" "subnet-2" {
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = "10.0.2.0/24"
+  availability_zone = "eu-west-2b"
+
+  tags = {
+    Name = "subnet-2"
+  }
+}
+
+resource "aws_internet_gateway" "igw" {
+  vpc_id = aws_vpc.main.id
+
+  tags = {
+    Name = "main-igw"
+  }
+}
+
+resource "aws_route_table" "route-table" {
+  vpc_id = aws_vpc.main.id
+
+  route {
+    # Send all ipv4 traffic to the igw
+    cidr       = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.igw.id
+  }
+
+  route {
+    # Send all ipv6 traffic to the igw
+    ipv6_cidr_block        = "::/0"
+    # Apparently lets any subnet traffic out to the internet?
+    egress_only_gateway_id = aws_internet_gateway.igw.id
+  }
+
+  tags {
+    Name = "main-route-table"
+  }
+}
+
+
+# This creates an association between a subnet and the routing table
+#resource "aws_route_table_associaton" "a" {
+#  subnet_id = aws_subnet.subnet-1.id
+#
+#
+#}

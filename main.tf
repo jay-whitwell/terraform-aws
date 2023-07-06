@@ -13,14 +13,6 @@ provider "aws" {
   region = "eu-west-2"
 }
 
-module "aws_vpc" {
+module "vpc" {
   source = "./vpc"
-}
-
-module "route53" {
-  source = "./route53"
-}
-
-module "ecs" {
-  source = "./ecs"
 }
