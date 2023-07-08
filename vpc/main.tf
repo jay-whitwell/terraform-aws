@@ -65,8 +65,8 @@ resource "aws_route_table_association" "a" {
 resource "aws_network_interface" "web-server-nic" {
   subnet_id = aws_subnet.subnet-1.id
   # Assign the IP address for the ENI
-  private_ips = ["10.0.1.50"]
-  aws_security_group = [aws_security_group.allow-web-traffic.id]
+  private_ips     = ["10.0.1.50"]
+  security_groups = [aws_security_group.allow-web-traffic.id]
 
   # We could assign this ENI to an EC2 instance now, but you
   # can do the opposite when creating the EC2 (i.e., give the EC2
@@ -74,7 +74,7 @@ resource "aws_network_interface" "web-server-nic" {
 }
 
 resource "aws_eip" "eip-one" {
-  domain = aws_vpc.main.id
-  network_interface = aws_network_interface.web-server-nic.id
-  associate_with_private_ip = "10.0.0.50"  
+  network_interface         = aws_network_interface.web-server-nic.id
+  associate_with_private_ip = "10.0.0.50"
+  depends_on                = [aws_internet_gateway.igw]
 }
