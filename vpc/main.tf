@@ -48,7 +48,7 @@ resource "aws_route_table" "route-table" {
     # Send all ipv6 traffic to the igw
     ipv6_cidr_block = "::/0"
     # Apparently lets any subnet traffic out to the internet?
-    egress_only_gateway_id = aws_internet_gateway.igw.id
+    gateway_id = aws_internet_gateway.igw.id
   }
 
   tags = {
@@ -75,6 +75,6 @@ resource "aws_network_interface" "web-server-nic" {
 
 resource "aws_eip" "eip-one" {
   network_interface         = aws_network_interface.web-server-nic.id
-  associate_with_private_ip = "10.0.0.50"
+  associate_with_private_ip = "10.0.1.50"
   depends_on                = [aws_internet_gateway.igw]
 }

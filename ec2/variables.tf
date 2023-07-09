@@ -3,3 +3,7 @@ variable "instance_name" {
   type        = string
   default     = "ExampleAppServerVarName"
 }
+
+variable "nic_id" {
+  description = "Value of the NIC used for this instance"
+}
