@@ -3,3 +3,8 @@ variable "subnet_prefix" {
   default     = "subnet"
   type        = string
 }
+
+variable "jay_ip" {
+  description = "The allowed ingress IP"
+  type        = string
+}

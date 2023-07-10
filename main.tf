@@ -15,6 +15,7 @@ provider "aws" {
 
 module "vpc" {
   source = "./vpc"
+  jay_ip = var.jay_ip
 }
 
 module "ec2" {

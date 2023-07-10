@@ -9,7 +9,7 @@ resource "aws_security_group" "allow-web-traffic" {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [var.jay_ip]
   }
 
   # Expose HTTP ports to any IP
@@ -18,7 +18,7 @@ resource "aws_security_group" "allow-web-traffic" {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [var.jay_ip]
   }
 
   # Expose SSH ports from any ip
@@ -27,7 +27,7 @@ resource "aws_security_group" "allow-web-traffic" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [var.jay_ip]
   }
 
   egress {

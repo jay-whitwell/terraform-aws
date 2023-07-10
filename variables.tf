@@ -1,3 +1,4 @@
-data "aws_availability_zones" "available" {
-  state = "available"
+variable "jay_ip" {
+    description = "Personal IP address"
+    type        = string
 }
