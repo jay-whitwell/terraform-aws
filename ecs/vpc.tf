@@ -17,6 +17,17 @@ resource "aws_subnet" "ecs_subnet_a" {
   }
 }
 
+resource "aws_subnet" "ecs_subnet_b" {
+  vpc_id                  = aws_vpc.ecs_vpc.id
+  cidr_block              = "10.0.2.0/24"
+  availability_zone       = "eu-west-2b"
+  map_public_ip_on_launch = true
+
+  tags = {
+    Name = "ecs_subnet_b"
+  }
+}
+
 resource "aws_internet_gateway" "ecs_igw" {
   vpc_id = aws_vpc.ecs_vpc.id
 
@@ -47,6 +58,11 @@ resource "aws_route" "ecs_route" {
 # This creates an association between a subnet and the routing table
 resource "aws_route_table_association" "a" {
   subnet_id      = aws_subnet.ecs_subnet_a.id
+  route_table_id = aws_route_table.ecs_route_table.id
+}
+
+resource "aws_route_table_association" "b" {
+  subnet_id      = aws_subnet.ecs_subnet_b.id
   route_table_id = aws_route_table.ecs_route_table.id
 }
 
