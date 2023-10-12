@@ -8,23 +8,13 @@ resource "aws_vpc" "main" {
   }
 }
 
-resource "aws_subnet" "subnet-1" {
+resource "aws_subnet" "public-subnet" {
   vpc_id            = aws_vpc.main.id
   cidr_block        = "10.0.1.0/24"
   availability_zone = "eu-west-2a"
 
   tags = {
-    Name = "subnet-1"
-  }
-}
-
-resource "aws_subnet" "subnet-2" {
-  vpc_id            = aws_vpc.main.id
-  cidr_block        = "10.0.2.0/24"
-  availability_zone = "eu-west-2b"
-
-  tags = {
-    Name = "subnet-2"
+    Name = "public-subnet"
   }
 }
 
@@ -59,12 +49,12 @@ resource "aws_route_table" "route-table" {
 
 # This creates an association between a subnet and the routing table
 resource "aws_route_table_association" "a" {
-  subnet_id      = aws_subnet.subnet-1.id
+  subnet_id      = aws_subnet.public-subnet.id
   route_table_id = aws_route_table.route-table.id
 }
 
 resource "aws_network_interface" "web-server-nic" {
-  subnet_id = aws_subnet.subnet-1.id
+  subnet_id = aws_subnet.public-subnet.id
   # Assign the IP address for the ENI
   private_ips     = ["10.0.1.50"]
   security_groups = [aws_security_group.allow-web-traffic.id]

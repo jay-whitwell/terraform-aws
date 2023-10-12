@@ -13,9 +13,9 @@ resource "aws_route53_record" "live" {
 }
 
 resource "aws_route53_record" "test" {
-  name = aws_route53_zone.primary.name
-  ttl = 3600
-  type = "A"
+  name    = aws_route53_zone.primary.name
+  ttl     = 3600
+  type    = "A"
   zone_id = aws_route53_zone.primary.zone_id
 
   records = [var.instance_public_ip]

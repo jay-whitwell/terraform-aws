@@ -12,12 +12,10 @@ resource "aws_instance" "web-server" {
   user_data = <<EOF
     #!/bin/bash
     sudo apt update -y
-    sudo apt install apache2 -y
-    sudo systemctl start apache2
+    sudo apt install nginx -y
+    sudo systemctl start nginx
     sudo bash -c "echo my first apache server > /var/www/html/index.html"
   EOF
-
-
 
   tags = {
     Name = "web-server"
