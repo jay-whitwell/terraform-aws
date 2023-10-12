@@ -17,14 +17,31 @@ resource "aws_security_group" "alb_sg" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 }
 
 resource "aws_lb_target_group" "front_end" {
-  name     = "alb-tg"
-  port     = 80
-  protocol = "HTTP"
-  vpc_id   = aws_vpc.ecs_vpc.id
+  name        = "alb-tg"
+  port        = 80
+  protocol    = "HTTP"
+  vpc_id      = aws_vpc.ecs_vpc.id
   target_type = "ip"
+
+  health_check {
+    enabled = true
+    healthy_threshold   = 2
+    unhealthy_threshold = 10
+    timeout             = 10
+    interval            = 30
+    path                = "/"
+    port                = "traffic-port"
+  }
 }
 
 resource "aws_alb_listener" "front_end" {
