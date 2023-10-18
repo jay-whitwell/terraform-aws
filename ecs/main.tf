@@ -22,7 +22,7 @@ resource "aws_ecs_task_definition" "my_task" {
     ],
     "essential" : true,
     "healthCheck" : {
-      "command" : ["CMD-SHELL", "curl -f http://localhost/ || exit 1"], # Here's your health check command for NGINX
+      "command" : ["CMD-SHELL", "curl -f http://localhost/ || exit 1"], # health check command for NGINX
       "interval" : 30,
       "timeout" : 10,
       "retries" : 3

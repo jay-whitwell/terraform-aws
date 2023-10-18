@@ -2,7 +2,7 @@ resource "aws_route53_zone" "primary" {
   name = "yobbos.link"
 }
 
-resource "aws_route53_record" "live" {
+resource "aws_route53_record" "yobbos_ns" {
   allow_overwrite = true
   name            = "yobbos.link"
   ttl             = 3600
@@ -12,11 +12,14 @@ resource "aws_route53_record" "live" {
   records = aws_route53_zone.primary.name_servers
 }
 
-resource "aws_route53_record" "test" {
+resource "aws_route53_record" "yobbos_a" {
   name    = aws_route53_zone.primary.name
-  ttl     = 3600
   type    = "A"
   zone_id = aws_route53_zone.primary.zone_id
-
-  records = [var.instance_public_ip]
+  
+  alias {
+    name                   = var.alb_dns_name
+    zone_id                = var.alb_zone_id
+    evaluate_target_health = true
+  }
 }

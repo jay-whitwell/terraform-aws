@@ -18,17 +18,29 @@ module "ec2" {
   source = "./ec2"
   nic_id = module.vpc.nic_id
 }
+
 module "vpc" {
   source = "./vpc"
   jay_ip = var.jay_ip
 }
-
-module "route53" {
-  source             = "./route53"
-  instance_public_ip = module.ec2.instance_public_ip
-}
 */
+
 
 module "ecs" {
   source = "./ecs"
+}
+
+module "ecr" {
+  source = "./ecr"
+}
+
+module "route53" {
+  source = "./route53"
+  // instance_public_ip = module.ec2.instance_public_ip 
+  alb_dns_name = module.ecs.alb_dns_name
+  alb_zone_id  = module.ecs.alb_zone_id
+}
+
+module "s3" {
+  source = "./s3"
 }

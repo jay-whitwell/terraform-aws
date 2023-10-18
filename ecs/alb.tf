@@ -34,7 +34,7 @@ resource "aws_lb_target_group" "front_end" {
   target_type = "ip"
 
   health_check {
-    enabled = true
+    enabled             = true
     healthy_threshold   = 2
     unhealthy_threshold = 10
     timeout             = 10
