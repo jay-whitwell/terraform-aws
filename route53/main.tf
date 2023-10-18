@@ -23,3 +23,14 @@ resource "aws_route53_record" "yobbos_a" {
     evaluate_target_health = true
   }
 }
+
+resource "aws_route53domains_registered_domain" "yobbos" {
+  domain_name = "yobbos.link"
+
+  dynamic "name_server" {
+    for_each = aws_route53_zone.primary.name_servers
+    content {
+      name = name_server.value
+    }
+  }
+}
