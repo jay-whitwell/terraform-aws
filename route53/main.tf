@@ -16,7 +16,7 @@ resource "aws_route53_record" "yobbos_a" {
   name    = aws_route53_zone.primary.name
   type    = "A"
   zone_id = aws_route53_zone.primary.zone_id
-  
+
   alias {
     name                   = var.alb_dns_name
     zone_id                = var.alb_zone_id

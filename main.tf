@@ -40,7 +40,3 @@ module "route53" {
   alb_dns_name = module.ecs.alb_dns_name
   alb_zone_id  = module.ecs.alb_zone_id
 }
-
-module "s3" {
-  source = "./s3"
-}
