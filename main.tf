@@ -13,17 +13,6 @@ provider "aws" {
   region = "eu-west-2"
 }
 
-module "ecs" {
-  source = "./ecs"
-}
-
-module "ecr" {
-  source = "./ecr"
-}
-
-module "route53" {
-  source = "./route53"
-  // instance_public_ip = module.ec2.instance_public_ip 
-  alb_dns_name = module.ecs.alb_dns_name
-  alb_zone_id  = module.ecs.alb_zone_id
+module "ec2" {
+  source = "ec2"
 }
