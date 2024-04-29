@@ -1,4 +1,4 @@
-name: "[Workflow] Apply"
+name: "[Workflow] Terraform Apply"
 
 on:
   push:

@@ -1,4 +1,4 @@
-name: "[Workflow] Plan & Apply"
+name: "[Workflow] Terraform Plan"
 
 on:
   pull_request:
