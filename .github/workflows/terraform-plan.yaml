@@ -1,7 +1,7 @@
-name: "[Workflow] Apply"
+name: "[Workflow] Plan & Apply"
 
 on:
-  push:
+  pull_request:
     branches: [main]
 
 permissions:
@@ -32,6 +32,3 @@ jobs:
 
       - name: Terraform plan
         run: terraform plan -input=false -lock-timeout=5m
-
-      - name: Terraform apply
-        run: terraform apply -input=false -auto-approve
