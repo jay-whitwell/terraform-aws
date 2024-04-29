@@ -1,18 +1,8 @@
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 4.16"
-    }
-  }
-
-  required_version = ">= 1.2.0"
+module "route53" {
+  source                   = "./route53"
+  s3_bucket_hosted_zone_id = module.s3.yobbos_link-_hosted_zone_id
 }
 
-provider "aws" {
-  region = "eu-west-2"
-}
-
-module "ec2" {
-  source = "ec2"
+module "s3" {
+  source = "./s3"
 }
