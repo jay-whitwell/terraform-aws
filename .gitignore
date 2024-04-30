@@ -1,4 +1,3 @@
 .terraform*
-terraform.tf*
 backend-config.tfvars
 backend.tf
