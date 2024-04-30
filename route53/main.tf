@@ -29,7 +29,19 @@ resource "aws_route53_record" "yobbos_apex" {
   type    = "A"
 
   alias {
-    name                   = "s3-website.eu-west-2.amazonaws.com."
+    name                   = "yobbos.link.s3-website.eu-west-2.amazonaws.com."
+    zone_id                = var.s3_bucket_hosted_zone_id
+    evaluate_target_health = false
+  }
+}
+
+resource "aws_route53_record" "yobbos_subdomain" {
+  zone_id = aws_route53_zone.primary.zone_id
+  name    = aws_route53_zone.primary.name
+  type    = "A"
+
+  alias {
+    name                   = "www.yobbos.link.s3-website.eu-west-2.amazonaws.com."
     zone_id                = var.s3_bucket_hosted_zone_id
     evaluate_target_health = false
   }
