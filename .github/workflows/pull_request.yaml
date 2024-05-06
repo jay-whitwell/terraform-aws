@@ -94,7 +94,6 @@ jobs:
       directory: permanent
     secrets: inherit
     if: |
-      echo "${{ needs.workflow_variables.outputs.permanent }}"
       needs.workflow_variables.result == 'success' &&
       needs.workflow_variables.outputs.permanent == 'changed'
       
