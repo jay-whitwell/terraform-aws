@@ -19,7 +19,9 @@ jobs:
     runs-on: ubuntu-latest
     name: Output workflow variables
     outputs:
-      specific_path: ${{ steps.variables.outputs.path }}
+      documentation: ${{ steps.variables.outputs.docs }}
+      ephemeral_terraform: ${{ steps.variables.outputs.ephemeral }}
+      permanent_terraform: ${{ steps.variables.outputs.permanent }}
     steps:
       - uses: actions/checkout@v4
   
@@ -44,21 +46,21 @@ jobs:
       - name: Extract variables for workflow
         id: variables
         run: |
-          if [[ ${{ steps.permanent-changes.outputs.only_changed }} = "true" ]]
+          if [[ ${{ steps.permanent-changes.outputs.any_changed }} = "true" ]]
           then
-            echo "path=$(echo permanent)" >> $GITHUB_OUTPUT
-          elif [[ ${{ steps.ephemeral-changes.outputs.only_changed }} = "true" ]]
+            echo "permanent_terraform=$(echo changed)" >> $GITHUB_OUTPUT
+          elif [[ ${{ steps.ephemeral-changes.outputs.any_changed }} = "true" ]]
           then
-            echo "path=$(echo ephemeral)" >> $GITHUB_OUTPUT
+            echo "ephemeral_terraform=$(echo changed)" >> $GITHUB_OUTPUT
           elif [[ ${{ steps.documentation-changes.outputs.only_changed }} = "true" ]]
           then
-            echo "path=$(echo documentation)" >> $GITHUB_OUTPUT
-          else
-            echo "path=$(echo all)" >> $GITHUB_OUTPUT
+            echo "documentation=$(echo changed)" >> $GITHUB_OUTPUT
           fi
-      - name: Show path
+      - name: Show results
         env:
-          SPECIFIC_PATH: ${{ steps.variables.outputs.path }}
+          PERMANENT: ${{ steps.variables.outputs.permanent }}
+          EPHEMERAL: ${{ steps.variables.outputs.ephemeral }}
+          DOCS: ${{ steps.variables.outputs.docs }}
         run: |
           echo "path: $SPECIFIC_PATH"
 
@@ -71,7 +73,7 @@ jobs:
         run: echo "Only updating documentation"
     if: |
       needs.workflow_variables.result == 'success' &&
-      needs.workflow_variables.outputs.specific_path == 'docs'
+      needs.workflow_variables.outputs.documentation == 'changed'
 
   terraform_plan_ephemeral:
     name: Terraform Plan Ephemeral
@@ -83,8 +85,7 @@ jobs:
     secrets: inherit
     if: |
       needs.workflow_variables.result == 'success' &&
-      needs.workflow_variables.outputs.specific_path == 'ephemeral' ||
-      needs.workflow_variables.outputs.specific_path == 'all'
+      needs.workflow_variables.outputs.ephemeral_terraform == 'ephemeral'
       
   terraform_plan_permanent:
     name: Terraform Plan Permanent
@@ -96,6 +97,5 @@ jobs:
     secrets: inherit
     if: |
       needs.workflow_variables.result == 'success' &&
-      needs.workflow_variables.outputs.specific_path == 'permanent' ||
-      needs.workflow_variables.outputs.specific_path == 'all'
+      needs.workflow_variables.outputs.permanent_terraform == 'permanent'
       
