@@ -61,6 +61,10 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - workflow_variables
+    steps:
+      - name: Docs update
+        run: |
+          echo "Only updating docs"
     if: |
       needs.workflow_variables.result == 'success' &&
       needs.workflow_variables.outputs.path == 'docs'
