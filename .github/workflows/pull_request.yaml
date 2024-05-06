@@ -62,7 +62,9 @@ jobs:
           EPHEMERAL: ${{ steps.variables.outputs.ephemeral }}
           DOCS: ${{ steps.variables.outputs.docs }}
         run: |
-          echo "path: $SPECIFIC_PATH"
+          echo "PERMANENT: $PERMANENT"
+          echo "EPHEMERAL: $EPHEMERAL"
+          echo "DOCS: $DOCS"
 
   update_documentation:
     runs-on: ubuntu-latest
