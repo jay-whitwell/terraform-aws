@@ -61,6 +61,7 @@ jobs:
           echo "PERMANENT: $permanent_terraform"
           echo "EPHEMERAL: $ephemeral_terraform"
           echo "DOCS: $documentation"
+          echo "var output: ${{ steps.variables.outputs.permanent }}"
 
   update_documentation:
     runs-on: ubuntu-latest
@@ -79,7 +80,7 @@ jobs:
     needs: 
       - workflow_variables
     with:
-      directory: ./ephemeral
+      directory: ephemeral
     secrets: inherit
     if: |
       needs.workflow_variables.result == 'success' &&
@@ -91,10 +92,9 @@ jobs:
     needs: 
       - workflow_variables
     with:
-      directory: ./permanent
+      directory: permanent
     secrets: inherit
     if: |
-      echo "${{ needs.workflow_variables.outputs.permanent }}" &&
       needs.workflow_variables.result == 'success' &&
       needs.workflow_variables.outputs.permanent == 'changed'
       
