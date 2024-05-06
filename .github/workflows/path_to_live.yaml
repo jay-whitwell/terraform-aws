@@ -1,4 +1,4 @@
-name: "[Workflow] Pull Request"
+name: "[Workflow] Path to Live"
 
 on:
   push:

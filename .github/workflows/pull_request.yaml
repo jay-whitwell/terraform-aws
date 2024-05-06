@@ -2,7 +2,8 @@ name: "[Workflow] Pull Request"
 
 on:
   pull_request:
-    branches: [main]
+    branches:
+      - main
 
 defaults:
   run:
