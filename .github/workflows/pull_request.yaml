@@ -48,8 +48,6 @@ jobs:
           elif [[ ${{ steps.documentation-changes.outputs.only_changed }} = "true" ]]
           then
             echo "path=$(echo documentation)" >> $GITHUB_OUTPUT
-          else
-            echo "path=$(echo all)" >> $GITHUB_OUTPUT
           fi
       - name: Show path
         env:
