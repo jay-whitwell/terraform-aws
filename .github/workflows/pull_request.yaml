@@ -61,7 +61,7 @@ jobs:
           echo "PERMANENT: $permanent_terraform"
           echo "EPHEMERAL: $ephemeral_terraform"
           echo "DOCS: $documentation"
-          echo "var output: ${{ steps.variables.outputs.permanent }}"
+          echo "var output: ${{ steps.variables.outputs.permanent_terraform }}"
 
   update_documentation:
     runs-on: ubuntu-latest
