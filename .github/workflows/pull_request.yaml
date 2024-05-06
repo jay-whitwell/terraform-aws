@@ -82,7 +82,8 @@ jobs:
     secrets: inherit
     if: |
       needs.workflow_variables.result == 'success' &&
-      needs.workflow_variables.outputs.specific_path == 'ephemeral'
+      needs.workflow_variables.outputs.specific_path == 'ephemeral' &&
+      needs.workflow_variables.outputs.specific_path != 'docs'
       
   terraform_plan_permanent:
     name: Terraform Plan Permanent
