@@ -39,7 +39,7 @@ resource "aws_s3_bucket_website_configuration" "www_yobbos_link" {
   bucket = aws_s3_bucket.www_yobbos_link.id
 
   redirect_all_requests_to {
-    host_name = aws_s3_bucket.yobbos_link.bucket_domain_name
+    host_name = aws_s3_bucket.yobbos_link.bucket
     protocol  = "http"
   }
 }
