@@ -84,7 +84,7 @@ jobs:
       - workflow_variables
       - terraform_plan_ephemeral
     with:
-      directory: needs.workflow_variables.output.path
+      directory: needs.workflow_variables.output.specific_path
     secrets: inherit
     if: |
       needs.workflow_variables.result == 'success'&&
@@ -109,7 +109,7 @@ jobs:
       - workflow_variables
       - terraform_plan_permanent
     with:
-      directory: needs.workflow_variables.output.path
+      directory: needs.workflow_variables.output.specific_path
     secrets: inherit
     if: |
       needs.workflow_variables.result == 'success' &&

@@ -4,6 +4,10 @@ on:
   pull_request:
     branches: [main]
 
+defaults:
+  run:
+    shell: bash
+
 permissions:
   contents: write
   actions: read
@@ -14,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Output workflow variables
     outputs:
-      path: ${{ steps.variables.outputs.path }}
+      specific_path: ${{ steps.variables.outputs.path }}
     steps:
       - uses: actions/checkout@v4
   
@@ -48,6 +52,8 @@ jobs:
           elif [[ ${{ steps.documentation-changes.outputs.only_changed }} = "true" ]]
           then
             echo "path=$(echo documentation)" >> $GITHUB_OUTPUT
+          else
+            echo "path=$(echo all)" >> $GITHUB_OUTPUT
           fi
       - name: Show path
         env:
@@ -64,7 +70,7 @@ jobs:
         run: echo "Only updating documentation"
     if: |
       needs.workflow_variables.result == 'success' &&
-      needs.workflow_variables.outputs.path == 'docs'
+      needs.workflow_variables.outputs.specific_path == 'docs'
 
   terraform_plan_ephemeral:
     name: Terraform Plan Ephemeral
@@ -75,9 +81,8 @@ jobs:
       directory: needs.workflow_variables.output.path
     secrets: inherit
     if: |
-      always() &&
-      needs.workflow_variables.result == 'success'&&
-      needs.workflow_variables.outputs.path == 'ephemeral'
+      needs.workflow_variables.result == 'success' &&
+      needs.workflow_variables.outputs.specific_path == 'ephemeral'
       
   terraform_plan_permanent:
     name: Terraform Plan Permanent
@@ -88,7 +93,6 @@ jobs:
       directory: needs.workflow_variables.output.path
     secrets: inherit
     if: |
-      always() &&
       needs.workflow_variables.result == 'success' &&
-      needs.workflow_variables.outputs.path == 'permanent'
+      needs.workflow_variables.outputs.specific_path == 'permanent'
       
