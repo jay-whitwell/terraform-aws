@@ -48,19 +48,19 @@ jobs:
         run: |
           if [[ ${{ steps.permanent-changes.outputs.any_changed }} = "true" ]]
           then
-            echo "permanent_terraform=$(echo changed)" >> $GITHUB_ENV
+            echo "permanent_terraform=changed" >> $GITHUB_ENV
           elif [[ ${{ steps.ephemeral-changes.outputs.any_changed }} = "true" ]]
           then
-            echo "ephemeral_terraform=$(echo changed)" >> $GITHUB_ENV
+            echo "ephemeral_terraform=changed" >> $GITHUB_ENV
           elif [[ ${{ steps.documentation-changes.outputs.only_changed }} = "true" ]]
           then
-            echo "documentation=$(echo changed)" >> $GITHUB_ENV
+            echo "documentation=changed" >> $GITHUB_ENV
           fi
       - name: Show results
         run: |
-          echo "PERMANENT: ${{ steps.variables.outputs.permanent }}"
-          echo "EPHEMERAL: ${{ steps.variables.outputs.ephemeral }}"
-          echo "DOCS: ${{ steps.variables.outputs.docs }}"
+          echo "PERMANENT: $permanent_terraform"
+          echo "EPHEMERAL: $ephemeral_terraform"
+          echo "DOCS: $documentation"
 
   update_documentation:
     runs-on: ubuntu-latest
