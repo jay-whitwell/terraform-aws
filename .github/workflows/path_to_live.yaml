@@ -2,7 +2,8 @@ name: "[Workflow] Pull Request"
 
 on:
   push:
-    branches: [main]
+    branches: 
+      - main
 
 permissions:
   contents: write
@@ -69,50 +70,23 @@ jobs:
       needs.workflow_variables.result == 'success' &&
       needs.workflow_variables.outputs.path == 'docs'
       
-  terraform_plan_ephemeral:
-    name: Terraform Plan Ephemeral
-    uses: ./.github/workflows/terraform_plan.yaml
-    needs: 
-      - workflow_variables
-    with:
-      directory: needs.workflow_variables.output.path
-    secrets: inherit
-    if: |
-      needs.workflow_variables.result == 'success' &&
-      needs.workflow_variables.outputs.path == 'ephemeral' &&
-      needs.workflow_variables.outputs
-
   terraform_apply_ephemeral:
     name: Terraform Plan Ephemeral
     uses: ./.github/workflows/terraform_apply.yaml
     needs: 
       - workflow_variables
-      - terraform_plan_ephemeral
     with:
       directory: needs.workflow_variables.output.specific_path
     secrets: inherit
     if: |
       needs.workflow_variables.result == 'success' &&
       needs.workflow_variables.outputs.path == 'ephemeral'
-      
-  terraform_plan_permanent:
-    name: Terraform Plan Permanent
-    uses: ./.github/workflows/terraform_plan.yaml
-    needs: 
-      - workflow_variables
-    with:
-      directory: needs.workflow_variables.output.path
-    secrets: inherit
-    if: |
-      needs.workflow_variables.result == 'success' &&
-      needs.workflow_variables.outputs.path == 'permanent'
-      
+
   terraform_apply_permanent:
     name: Terraform Plan Permanent
     uses: ./.github/workflows/terraform_apply.yaml
     needs: 
       - workflow_variables
-      - terraform_plan_permanent
     with:
       directory: needs.workflow_variables.output.specific_path
     secrets: inherit
