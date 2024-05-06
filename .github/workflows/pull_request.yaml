@@ -77,6 +77,7 @@ jobs:
       directory: needs.workflow_variables.output.path
     secrets: inherit
     if: |
+      always() &&
       needs.workflow_variables.result == 'success'&&
       needs.workflow_variables.outputs.path == 'ephemeral'
       
@@ -89,6 +90,7 @@ jobs:
       directory: needs.workflow_variables.output.path
     secrets: inherit
     if: |
+      always() &&
       needs.workflow_variables.result == 'success' &&
       needs.workflow_variables.outputs.path == 'permanent'
       
