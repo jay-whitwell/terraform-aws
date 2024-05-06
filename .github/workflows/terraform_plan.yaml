@@ -32,8 +32,8 @@ jobs:
 
       - name: Terraform init
         run: terraform init -input=false
-        working-directory: ./${{ inputs.directory }}
+        working-directory: ${{ inputs.directory }}
 
       - name: Terraform plan
         run: terraform plan -input=false -lock-timeout=5m
-        working-directory: ./${{ inputs.directory }}
+        working-directory: ${{ inputs.directory }}
