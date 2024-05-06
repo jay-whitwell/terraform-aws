@@ -78,8 +78,9 @@ jobs:
       directory: needs.workflow_variables.output.path
     secrets: inherit
     if: |
-      needs.workflow_variables.result == 'success'&&
-      needs.workflow_variables.outputs.path == 'ephemeral'
+      needs.workflow_variables.result == 'success' &&
+      needs.workflow_variables.outputs.path == 'ephemeral' &&
+      needs.workflow_variables.outputs
 
   terraform_apply_ephemeral:
     name: Terraform Plan Ephemeral
@@ -91,7 +92,7 @@ jobs:
       directory: needs.workflow_variables.output.specific_path
     secrets: inherit
     if: |
-      needs.workflow_variables.result == 'success'&&
+      needs.workflow_variables.result == 'success' &&
       needs.workflow_variables.outputs.path == 'ephemeral'
       
   terraform_plan_permanent:
