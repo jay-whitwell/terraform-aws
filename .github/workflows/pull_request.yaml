@@ -78,7 +78,7 @@ jobs:
     needs: 
       - workflow_variables
     with:
-      directory: needs.workflow_variables.output.path
+      directory: needs.workflow_variables.output.specific_path
     secrets: inherit
     if: |
       needs.workflow_variables.result == 'success' &&
@@ -91,7 +91,7 @@ jobs:
     needs: 
       - workflow_variables
     with:
-      directory: needs.workflow_variables.output.path
+      directory: needs.workflow_variables.output.specific_path
     secrets: inherit
     if: |
       needs.workflow_variables.result == 'success' &&
