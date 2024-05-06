@@ -64,8 +64,8 @@ jobs:
     if: |
       needs.workflow_variables.result == 'success' &&
       needs.workflow_variables.outputs.path == 'docs'
-
-   terraform_plan_ephemeral:
+      
+  terraform_plan_ephemeral:
     name: Terraform Plan Ephemeral
     uses: ./.github/workflows/terraform_plan.yaml
     needs: 

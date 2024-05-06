@@ -4,7 +4,13 @@ defaults:
   run:
     shell: bash
 
-on: workflow_call
+on: 
+  workflow_call:
+    inputs:
+      directory:
+        description: 'Terraform directory'
+        required: true
+        type: string
 
 jobs:
   terraform_plan:
