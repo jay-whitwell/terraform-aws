@@ -70,7 +70,6 @@ jobs:
       - name: Only update docs
         run: echo "Only updating documentation"
     if: |
-      always() &&
       needs.workflow_variables.result == 'success' &&
       needs.workflow_variables.outputs.specific_path == 'docs'
 
@@ -83,10 +82,9 @@ jobs:
       directory: needs.workflow_variables.output.specific_path
     secrets: inherit
     if: |
-      always() &&
       needs.workflow_variables.result == 'success' &&
-      needs.workflow_variables.outputs.specific_path == 'ephemeral' &&
-      needs.workflow_variables.outputs.specific_path != 'docs'
+      needs.workflow_variables.outputs.specific_path == 'ephemeral' ||
+      needs.workflow_variables.outputs.specific_path == 'all'
       
   terraform_plan_permanent:
     name: Terraform Plan Permanent
@@ -97,7 +95,7 @@ jobs:
       directory: needs.workflow_variables.output.specific_path
     secrets: inherit
     if: |
-      always() &&
       needs.workflow_variables.result == 'success' &&
-      needs.workflow_variables.outputs.specific_path == 'permanent'
+      needs.workflow_variables.outputs.specific_path == 'permanent' ||
+      needs.workflow_variables.outputs.specific_path == 'all'
       
