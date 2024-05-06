@@ -87,7 +87,7 @@ jobs:
     secrets: inherit
     if: |
       needs.workflow_variables.result == 'success' &&
-      needs.workflow_variables.outputs.ephemeral_terraform == 'ephemeral'
+      needs.workflow_variables.outputs.ephemeral_terraform == 'changed'
       
   terraform_plan_permanent:
     name: Terraform Plan Permanent
@@ -99,5 +99,5 @@ jobs:
     secrets: inherit
     if: |
       needs.workflow_variables.result == 'success' &&
-      needs.workflow_variables.outputs.permanent_terraform == 'permanent'
+      needs.workflow_variables.outputs.permanent_terraform == 'changed'
       
