@@ -44,6 +44,6 @@ resource "aws_s3_bucket_website_configuration" "www_yobbos_link" {
   }
 }
 
-resource "aws_s3_bucket" "test" {
+resource "aws_s3_bucket" "test-workflow" {
   bucket = "jay-test-terraform-workflow"
 }
