@@ -35,9 +35,10 @@ jobs:
         working-directory: terraform/${{ inputs.directory }}
 
       - name: Terraform plan
-        run: terraform plan -input=false -lock-timeout=5m
         working-directory: terraform/${{ inputs.directory }}
-
-      - name: echo directory
         run: |
           echo "Directory: $GITHUB_WORKSPACE"
+          terraform workspace show
+          terraform plan -input=false -lock-timeout=5m
+
+     
