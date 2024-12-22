@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: unfor19/install-aws-cli-action@27d6061dae5d39e89be4d2246824f15e111a7e06
-      - uses: hashicorp/setup-terraform@1f0219f06bc83460a00897ce23371e4a3325db85
+      - uses: hashicorp/setup-terraform@v3.1.2
 
       - name: Configure AWS credentials for Terraform
         uses: aws-actions/configure-aws-credentials@a78e788c51463a506fbaaec784bab37f73afb4e8

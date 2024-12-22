@@ -16,10 +16,10 @@ on:
 jobs:
   terraform_plan:
     runs-on: ubuntu-latest
-    
     steps:
+      - uses: actions/checkout@v4
       - uses: unfor19/install-aws-cli-action@27d6061dae5d39e89be4d2246824f15e111a7e06
-      - uses: hashicorp/setup-terraform@1f0219f06bc83460a00897ce23371e4a3325db85
+      - uses: hashicorp/setup-terraform@v3.1.2
 
       - name: Configure AWS credentials for Terraform
         uses: aws-actions/configure-aws-credentials@a78e788c51463a506fbaaec784bab37f73afb4e8
@@ -29,11 +29,21 @@ jobs:
           aws-region: eu-west-2
           role-duration-seconds: 1800
           role-session-name: TerraformGithubAction
-
+      
       - name: Terraform init
-        run: terraform init -input=false
-        working-directory: ./${{ inputs.directory }}
+        working-directory: terraform/${{ inputs.directory }}
+        run: |
+          echo "Directory: $GITHUB_WORKSPACE"
+          ls
+          echo "Terraform directory: ${{ inputs.directory }}"
+          terraform workspace show
+          terraform init -input=false
 
       - name: Terraform plan
-        run: terraform plan -input=false -lock-timeout=5m
-        working-directory: ./${{ inputs.directory }}
+        working-directory: terraform/${{ inputs.directory }}
+        run: |
+          echo "Directory: $GITHUB_WORKSPACE"
+          terraform workspace show
+          terraform plan -input=false -lock-timeout=5m
+
+     
