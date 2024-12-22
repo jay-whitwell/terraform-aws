@@ -29,11 +29,15 @@ jobs:
           aws-region: eu-west-2
           role-duration-seconds: 1800
           role-session-name: TerraformGithubAction
-
+      
       - name: Terraform init
         run: terraform init -input=false
-        working-directory: ./terraform/${{ inputs.directory }}
+        working-directory: terraform/${{ inputs.directory }}
 
       - name: Terraform plan
         run: terraform plan -input=false -lock-timeout=5m
-        working-directory: ./terraform/${{ inputs.directory }}
+        working-directory: terraform/${{ inputs.directory }}
+
+      - name: echo directory
+        run: |
+          echo "Directory: $GITHUB_WORKSPACE"
