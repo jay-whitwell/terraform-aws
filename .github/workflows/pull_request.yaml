@@ -109,7 +109,7 @@ jobs:
       - workflow_variables
     with:
       directory: 'permanent'
-      plan_or_apply: ${{ needs.workflow_variables.outputs.plan_or_apply }}
+      plan_or_apply: plan
     secrets: inherit
     if: |
       needs.workflow_variables.result == 'success' &&
