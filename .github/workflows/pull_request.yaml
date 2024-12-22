@@ -55,7 +55,7 @@ jobs:
       - name: Extract variables for workflow
         id: variables
         run: |
-          if [[ ${{ steps.terraform-changes.outputs.only_changed }} = "true" ]]
+          if [[ ${{ steps.terraform-changes.outputs.any_changed }} = "true" ]]
           then
             if [[ ${{ steps.permanent-changes.outputs.only_changed }} = "true" ]]
             then
@@ -100,7 +100,8 @@ jobs:
     secrets: inherit
     if: |
       needs.workflow_variables.result == 'success' &&
-      needs.workflow_variables.outputs.specific_path == 'ephemeral'
+      needs.workflow_variables.outputs.specific_path == 'ephemeral' ||
+      needs.workflow_variables.outputs.specific_path == 'terraform'
       
   terraform_plan_permanent:
     name: Terraform Plan Permanent
@@ -112,5 +113,7 @@ jobs:
     secrets: inherit
     if: |
       needs.workflow_variables.result == 'success' &&
-      needs.workflow_variables.outputs.specific_path == 'permanent'
+      needs.workflow_variables.outputs.specific_path == 'permanent' ||
+      needs.workflow_variables.outputs.specific_path == 'terraform'
+
       
