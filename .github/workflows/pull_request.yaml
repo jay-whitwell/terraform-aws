@@ -31,7 +31,6 @@ jobs:
         with:
           files: |
             terraform/**
-
       - name: Check changes to permanent infra
         uses: tj-actions/changed-files@v44
         id: permanent-changes
