@@ -1,4 +1,4 @@
-name: "[Workflow] Terraform Plan & Apply"
+name: "[Workflow] Terraform Plan"
 
 defaults:
   run:
@@ -11,11 +11,17 @@ on:
         description: 'Terraform directory'
         required: true
         type: string
+      plan_or_apply:
+        description: 'Plan or Apply'
+        required: true
+        type: string
+
 
 jobs:
   terraform_plan:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - uses: unfor19/install-aws-cli-action@27d6061dae5d39e89be4d2246824f15e111a7e06
       - uses: hashicorp/setup-terraform@v3.1.2
 
@@ -27,12 +33,21 @@ jobs:
           aws-region: eu-west-2
           role-duration-seconds: 1800
           role-session-name: TerraformGithubAction
-
+      
       - name: Terraform init
-        run: terraform init -input=false
+        working-directory: terraform/${{ inputs.directory }}
+        run: |
+          echo "Directory: $GITHUB_WORKSPACE"
+          ls
+          echo "Terraform directory: ${{ inputs.directory }}"
+          terraform workspace show
+          terraform init -input=false
 
       - name: Terraform plan
-        run: terraform plan -input=false -lock-timeout=5m
+        working-directory: terraform/${{ inputs.directory }}
+        run: |
+          echo "Directory: $GITHUB_WORKSPACE"
+          terraform workspace show
+          terraform ${{ inputs.plan_or_apply }} -input=false -lock-timeout=5m
 
-      - name: Terraform Apply
-        run: terraform apply -input=false -auto-approve -lock-timeout=5m
+     
