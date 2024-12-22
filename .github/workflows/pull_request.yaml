@@ -18,7 +18,7 @@ jobs:
     name: Output workflow variables
     outputs:
       specific_path: ${{ steps.variables.outputs.path }}
-      plan_or_apply: ${{ steps.terraform_plan_or_apply.outputs.path}}
+      plan_or_apply: ${{ steps.terraform_plan_or_apply.outputs.plan_or_apply}}
     steps:
       - uses: actions/checkout@v4
 
@@ -78,7 +78,7 @@ jobs:
 
       - name: Plan or Apply
         id: terraform_plan_or_apply
-        run: echo "path=$(echo plan)" >> $GITHUB_OUTPUT
+        run: echo "plan_or_apply=$(echo plan)" >> $GITHUB_OUTPUT
 
   update_documentation:
     runs-on: ubuntu-latest
