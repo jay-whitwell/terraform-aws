@@ -110,6 +110,27 @@ jobs:
       needs.workflow_variables.result == 'success' &&
       needs.workflow_variables.outputs.specific_path == 'permanent' ||
       needs.workflow_variables.outputs.specific_path == 'terraform'
+
+  terraform_apply_ephemeral:
+    name: Terraform Plan Ephemeral
+    uses: ./.github/workflows/terraform_apply.yaml
+    needs: 
+      - terraform_plan_ephemeral
+    with:
+      directory: 'ephemeral'
+    secrets: inherit
+    if: needs.terraform_plan_ephemeral.result == 'success'
+
+  terraform_apply_permanent:
+    name: Terraform Plan Permanent
+    uses: ./.github/workflows/terraform_apply.yaml
+    needs: 
+      - terraform_plan_permanent
+    with:
+      directory: 'permanent'
+    secrets: inherit
+    if: needs.terraform_plan_permanent.result == 'success'
+      
       
 
       
