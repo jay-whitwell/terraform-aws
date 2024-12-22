@@ -33,7 +33,8 @@ jobs:
       - name: Terraform init
         working-directory: terraform/${{ inputs.directory }}
         run: |
-          echo "Directory: $GITHUB_WORKSPACE && ls"
+          echo "Directory: $GITHUB_WORKSPACE"
+          ls
           echo "Terraform directory: ${{ inputs.directory }}"
           terraform workspace show
           terraform init -input=false
