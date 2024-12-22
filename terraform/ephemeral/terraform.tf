@@ -2,7 +2,7 @@ terraform {
 
   backend "s3" {
     bucket  = "jay-tfstate"
-    key     = "permanent/terraform.tfstate"
+    key     = "ephemeral/terraform.tfstate"
     region  = "eu-west-2"
     encrypt = true
   }
