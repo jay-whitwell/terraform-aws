@@ -34,13 +34,13 @@ jobs:
         id: permanent-changes
         with:
           files: |
-            permanent/**
+            terraform/permanent/**
       - name: Check changes to ephemeral infra
         uses: tj-actions/changed-files@41ce994be96a740b53ae11ecbf86d1619a7bd640
         id: ephemeral-changes
         with:
           files: |
-            ephemeral/**
+            permanent/ephemeral/**
       - name: Check changes to documentation
         uses: tj-actions/changed-files@41ce994be96a740b53ae11ecbf86d1619a7bd640
         id: documentation-changes
