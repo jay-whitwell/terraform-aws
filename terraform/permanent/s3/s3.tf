@@ -43,7 +43,3 @@ resource "aws_s3_bucket_website_configuration" "www_yobbos_link" {
     protocol  = "http"
   }
 }
-
-resource "aws_s3_bucket" "test" {
-  bucket = "jay-test-terraform-workflow"
-}

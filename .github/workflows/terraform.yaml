@@ -43,7 +43,7 @@ jobs:
           terraform workspace show
           terraform init -input=false
 
-      - name: Terraform plan
+      - name: Terraform plan and apply
         working-directory: terraform/${{ inputs.directory }}
         run: |
           echo "Directory: $GITHUB_WORKSPACE"
