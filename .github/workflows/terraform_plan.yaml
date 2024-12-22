@@ -31,8 +31,12 @@ jobs:
           role-session-name: TerraformGithubAction
       
       - name: Terraform init
-        run: terraform init -input=false
         working-directory: terraform/${{ inputs.directory }}
+        run: |
+          echo "Directory: $GITHUB_WORKSPACE"
+          echo "Terraform directory: ${{ inputs.directory }}"
+          terraform workspace show
+          terraform input -input=false
 
       - name: Terraform plan
         working-directory: terraform/${{ inputs.directory }}
