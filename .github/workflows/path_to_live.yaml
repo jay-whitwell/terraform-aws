@@ -113,4 +113,3 @@ jobs:
       needs.workflow_variables.result.success == 'success' &&
       needs.workflow_variables.outputs.specific_path == 'permanent' ||
       needs.workflow_variables.outputs.specific_path == 'terraform'
-      
