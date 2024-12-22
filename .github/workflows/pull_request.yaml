@@ -93,7 +93,7 @@ jobs:
 
   terraform_plan_ephemeral:
     name: Terraform Plan Ephemeral
-    uses: ./.github/workflows/terraform_plan.yaml
+    uses: ./.github/workflows/terraform.yaml
     needs: 
       - workflow_variables
     with:
@@ -107,7 +107,7 @@ jobs:
       
   terraform_plan_permanent:
     name: Terraform Plan Permanent
-    uses: ./.github/workflows/terraform_plan.yaml
+    uses: ./.github/workflows/terraform.yaml
     needs: 
       - workflow_variables
     with:
