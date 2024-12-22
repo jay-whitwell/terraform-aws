@@ -26,21 +26,28 @@ jobs:
       - name: Show filesystem directory
         run: |
           echo "Directory: $GITHUB_WORKSPACE"
-  
+
       - name: Check changes to permanent infra
-        uses: tj-actions/changed-files@41ce994be96a740b53ae11ecbf86d1619a7bd640
+        uses: tj-actions/changed-files@v44
+        id: terraform-changes
+        with:
+          files: |
+            terraform/**
+
+      - name: Check changes to permanent infra
+        uses: tj-actions/changed-files@v44
         id: permanent-changes
         with:
           files: |
             terraform/permanent/**
       - name: Check changes to ephemeral infra
-        uses: tj-actions/changed-files@41ce994be96a740b53ae11ecbf86d1619a7bd640
+        uses: tj-actions/changed-files@v44
         id: ephemeral-changes
         with:
           files: |
             permanent/ephemeral/**
       - name: Check changes to documentation
-        uses: tj-actions/changed-files@41ce994be96a740b53ae11ecbf86d1619a7bd640
+        uses: tj-actions/changed-files@v44
         id: documentation-changes
         with:
           files: |
@@ -48,12 +55,17 @@ jobs:
       - name: Extract variables for workflow
         id: variables
         run: |
-          if [[ ${{ steps.permanent-changes.outputs.only_changed }} = "true" ]]
+          if [[ ${{ steps.terraform-changes.outputs.only_changed }} = "true" ]]
           then
-            echo "path=$(echo permanent)" >> $GITHUB_OUTPUT
-          elif [[ ${{ steps.ephemeral-changes.outputs.only_changed }} = "true" ]]
-          then
-            echo "path=$(echo ephemeral)" >> $GITHUB_OUTPUT
+            if [[ ${{ steps.permanent-changes.outputs.only_changed }} = "true" ]]
+            then
+              echo "path=$(echo permanent)" >> $GITHUB_OUTPUT
+            elif [[ ${{ steps.ephemeral-changes.outputs.only_changed }} = "true" ]]
+            then
+              echo "path=$(echo ephemeral)" >> $GITHUB_OUTPUT
+            else
+              echo "path=$(echo terraform)" >> $GITHUB_OUTPUT
+            fi
           elif [[ ${{ steps.documentation-changes.outputs.only_changed }} = "true" ]]
           then
             echo "path=$(echo docs)" >> $GITHUB_OUTPUT
