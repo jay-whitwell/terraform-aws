@@ -16,6 +16,7 @@ jobs:
     name: Output workflow variables
     outputs:
       specific_path: ${{ steps.variables.outputs.path }}
+      plan_or_apply: ${{ steps.terraform_plan_or_apply.outputs.path}}
     steps:
       - uses: actions/checkout@v4
 
@@ -73,6 +74,16 @@ jobs:
         run: |
           echo "path: $SPECIFIC_PATH"
 
+      - name: Plan or Apply
+        id: terraform_plan_or_apply
+        run: | 
+          if [[ ${{ github.ref == 'refs/heads/main' }} ]];
+          then
+            echo "path=$(echo apply)" >> $GITHUB_OUTPUT
+          else
+            echo "path=$(echo plan)" >> $GITHUB_OUTPUT
+          fi
+
   update_documentation:
     runs-on: ubuntu-latest
     needs:
@@ -85,49 +96,27 @@ jobs:
       needs.workflow_variables.outputs.specific_path == 'docs' || 
       needs.workflow_variables.outputs.specific_path == 'all'
 
-  terraform_plan_ephemeral:
-    name: Terraform Plan Ephemeral
-    uses: ./.github/workflows/terraform_apply.yaml
-    needs: 
-      - workflow_variables
-    with:
-      directory: 'ephemeral'
-    secrets: inherit
-    if: |
-      needs.workflow_variables.result == 'success' &&
-      needs.workflow_variables.outputs.specific_path == 'ephemeral' ||
-      needs.workflow_variables.outputs.specific_path == 'terraform'
-      
-  terraform_plan_permanent:
-    name: Terraform Plan Permanent
-    uses: ./.github/workflows/terraform_apply.yaml
-    needs: 
-      - workflow_variables
-    with:
-      directory: 'permanent'
-    secrets: inherit
-    if: |
-      needs.workflow_variables.result == 'success' &&
-      needs.workflow_variables.outputs.specific_path == 'permanent' ||
-      needs.workflow_variables.outputs.specific_path == 'terraform'
-
   terraform_apply_ephemeral:
-    name: Terraform Plan Ephemeral
+    name: Terraform Apply Ephemeral
     uses: ./.github/workflows/terraform_apply.yaml
     needs: 
-      - terraform_plan_ephemeral
+      - workflow_variables
     with:
       directory: 'ephemeral'
     secrets: inherit
-    if: needs.terraform_plan_ephemeral.result == 'success'
+    if: |
+      needs.workflow_variables.result.success == 'success' &&
+      needs.workflow_variables.outputs.plan_or_apply == 'plan'
 
   terraform_apply_permanent:
-    name: Terraform Plan Permanent
+    name: Terraform Apply Permanent
     uses: ./.github/workflows/terraform_apply.yaml
     needs: 
-      - terraform_plan_permanent
+      - workflow_variables
     with:
       directory: 'permanent'
     secrets: inherit
-    if: needs.terraform_plan_permanent.result == 'success'
+    if: |
+      needs.workflow_variables.result.success == 'success' &&
+      needs.workflow_variables.outputs.plan_or_apply == 'apply'
       
