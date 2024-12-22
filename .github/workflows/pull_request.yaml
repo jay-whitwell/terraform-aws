@@ -24,6 +24,10 @@ jobs:
       permanent_terraform: ${{ steps.variables.outputs.permanent }}
     steps:
       - uses: actions/checkout@v4
+
+      - name: Show filesystem directory
+        run: |
+          echo "Directory: $GITHUB_WORKSPACE"
   
       - name: Check changes to permanent infra
         uses: tj-actions/changed-files@41ce994be96a740b53ae11ecbf86d1619a7bd640
