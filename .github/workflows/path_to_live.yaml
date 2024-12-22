@@ -107,8 +107,9 @@ jobs:
     secrets: inherit
     if: |
       needs.workflow_variables.result.success == 'success' &&
-      needs.workflow_variables.outputs.plan_or_apply == 'plan'
-
+      needs.workflow_variables.outputs.plan_or_apply == 'apply' &&
+      (needs.workflow_variables.outputs.specific_path == 'ephemeral' ||
+      needs.workflow_variables.outputs.specific_path == 'terraform')
   terraform_apply_permanent:
     name: Terraform Apply Permanent
     uses: ./.github/workflows/terraform.yaml
@@ -120,5 +121,7 @@ jobs:
     secrets: inherit
     if: |
       needs.workflow_variables.result.success == 'success' &&
-      needs.workflow_variables.outputs.plan_or_apply == 'apply'
+      needs.workflow_variables.outputs.plan_or_apply == 'apply' &&
+      (needs.workflow_variables.outputs.specific_path == 'permanent' ||
+      needs.workflow_variables.outputs.specific_path == 'terraform')
       
