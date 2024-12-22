@@ -18,6 +18,7 @@ jobs:
     name: Output workflow variables
     outputs:
       specific_path: ${{ steps.variables.outputs.path }}
+      plan_or_apply: ${{ steps.terraform_plan_or_apply.outputs.path}}
     steps:
       - uses: actions/checkout@v4
 
