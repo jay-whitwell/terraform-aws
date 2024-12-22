@@ -48,6 +48,6 @@ jobs:
         run: |
           echo "Directory: $GITHUB_WORKSPACE"
           terraform workspace show
-          terraform ${{ inputs.plan_or_apply }} -input=false -lock-timeout=5m
+          terraform ${{ inputs.plan_or_apply }} -auto-approve -lock-timeout=5m
 
      
