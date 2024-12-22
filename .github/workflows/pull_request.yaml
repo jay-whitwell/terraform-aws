@@ -96,7 +96,7 @@ jobs:
     needs: 
       - workflow_variables
     with:
-      directory: './terraform/ephemeral'
+      directory: 'ephemeral'
     secrets: inherit
     if: |
       needs.workflow_variables.result == 'success' &&
@@ -109,7 +109,7 @@ jobs:
     needs: 
       - workflow_variables
     with:
-      directory: './terraform/permanent'
+      directory: 'permanent'
     secrets: inherit
     if: |
       needs.workflow_variables.result == 'success' &&
