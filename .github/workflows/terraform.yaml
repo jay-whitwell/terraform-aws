@@ -58,7 +58,7 @@ jobs:
           else
             terraform plan -lock-timeout=5m
           fi
-        if: ${{ inputs.plan_or_apply }} == 'plan'
+        if: ${{ inputs.plan_or_apply == 'plan' }}
 
       - name: Terraform apply
         working-directory: terraform/${{ inputs.directory }}
@@ -72,7 +72,7 @@ jobs:
           else
             terraform plan -lock-timeout=5m -auto-approve
           fi
-        if: ${{ inputs.plan_or_apply }} == 'apply'
+        if: ${{ inputs.plan_or_apply == 'apply' }} 
       
       
      
