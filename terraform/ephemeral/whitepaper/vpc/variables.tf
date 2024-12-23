@@ -4,7 +4,7 @@ variable "subnet_prefix" {
   type        = string
 }
 
-variable "jay_ip" {
+variable "allowed_ip" {
   description = "The allowed ingress IP"
   type        = string
 }
