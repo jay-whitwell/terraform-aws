@@ -52,7 +52,7 @@ jobs:
           echo "Directory: $GITHUB_WORKSPACE"
           echo "Plan or apply: ${{ inputs.plan_or_apply }}"
           terraform workspace show
-          terraform ${{ inputs.plan_or_apply }} -auto-approve -lock-timeout=5m -var "allowed_ip=${{ secrets.allowed_ip }}"
+          terraform ${{ inputs.plan_or_apply }} -lock-timeout=5m -var "allowed_ip=${{ secrets.allowed_ip }}"
         if: ${{ inputs.plan_or_apply }} == 'plan'
       
       - name: Terraform apply
@@ -61,7 +61,7 @@ jobs:
           echo "Directory: $GITHUB_WORKSPACE"
           echo "Plan or apply: ${{ inputs.plan_or_apply }}"
           terraform workspace show
-          terraform ${{ inputs.plan_or_apply }} -lock-timeout=5m -var "allowed_ip=${{ secrets.allowed_ip }}"
+          terraform ${{ inputs.plan_or_apply }} -auto-approve -lock-timeout=5m -var "allowed_ip=${{ secrets.allowed_ip }}"
         if: ${{ inputs.plan_or_apply }} == 'apply'
 
      
