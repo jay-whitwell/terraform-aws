@@ -60,6 +60,6 @@ jobs:
           echo "Directory: $GITHUB_WORKSPACE"
           terraform workspace show
           terraform ${{ inputs.plan_or_apply }} -lock-timeout=5m -var "allowed_ip=${{ secrets.allowed_ip }}"
-      if: ${{ inputs.plan_or_apply }} == 'apply'
+        if: ${{ inputs.plan_or_apply }} == 'apply'
 
      
