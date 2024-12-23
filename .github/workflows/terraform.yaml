@@ -46,11 +46,20 @@ jobs:
           terraform workspace show
           terraform init -input=false 
 
-      - name: Terraform plan and apply
+      - name: Terraform plan
         working-directory: terraform/${{ inputs.directory }}
         run: |
           echo "Directory: $GITHUB_WORKSPACE"
           terraform workspace show
           terraform ${{ inputs.plan_or_apply }} -auto-approve -lock-timeout=5m -var "allowed_ip=${{ secrets.allowed_ip }}"
+        if: ${{ inputs.plan_or_apply }} == 'plan'
+      
+      - name: Terraform apply
+        working-directory: terraform/${{ inputs.directory }}
+        run: |
+          echo "Directory: $GITHUB_WORKSPACE"
+          terraform workspace show
+          terraform ${{ inputs.plan_or_apply }} -lock-timeout=5m -var "allowed_ip=${{ secrets.allowed_ip }}"
+      if: ${{ inputs.plan_or_apply }} == 'apply'
 
      
