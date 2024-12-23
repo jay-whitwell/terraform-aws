@@ -96,7 +96,6 @@ jobs:
     with:
       directory: 'ephemeral'
       plan_or_apply: plan
-      extra_vars: "-var public_access_enabled=true"
     secrets: inherit
     if: |
       needs.workflow_variables.result == 'success' &&
