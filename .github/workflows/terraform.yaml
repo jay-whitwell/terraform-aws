@@ -52,8 +52,27 @@ jobs:
           echo "Directory: $GITHUB_WORKSPACE"
           echo "Plan or apply: ${{ inputs.plan_or_apply }}"
           terraform workspace show
-          terraform ${{ inputs.plan_or_apply }} -lock-timeout=5m -var "allowed_ip=${{ secrets.allowed_ip }}"
+          if [[ ${{ inputs.directory }} = 'ephemeral' ]]
+          then
+            terraform plan -lock-timeout=5m -auto-approve -var "allowed_ip=${{ secrets.allowed_ip }}"
+          else
+            terraform plan -lock-timeout=5m -auto-approve
+          fi
         if: ${{ inputs.plan_or_apply }} == 'plan'
+
+      - name: Terraform apply
+        working-directory: terraform/${{ inputs.directory }}
+        run: |
+          echo "Directory: $GITHUB_WORKSPACE"
+          echo "Plan or apply: ${{ inputs.plan_or_apply }}"
+          terraform workspace show
+          if [[ ${{ inputs.directory }} = 'ephemeral' ]]
+          then
+            terraform plan -lock-timeout=5m -auto-approve -var "allowed_ip=${{ secrets.allowed_ip }}"
+          else
+            terraform plan -lock-timeout=5m -auto-approve
+          fi
+        if: ${{ inputs.plan_or_apply }} == 'apply'
       
       
      
