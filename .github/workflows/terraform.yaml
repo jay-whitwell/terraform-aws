@@ -1,4 +1,4 @@
-name: "[Workflow] Terraform Plan"
+name: "[Workflow] Terraform Plan/Apply"
 
 defaults:
   run:
@@ -55,13 +55,5 @@ jobs:
           terraform ${{ inputs.plan_or_apply }} -lock-timeout=5m -var "allowed_ip=${{ secrets.allowed_ip }}"
         if: ${{ inputs.plan_or_apply }} == 'plan'
       
-      - name: Terraform apply
-        working-directory: terraform/${{ inputs.directory }}
-        run: |
-          echo "Directory: $GITHUB_WORKSPACE"
-          echo "Plan or apply: ${{ inputs.plan_or_apply }}"
-          terraform workspace show
-          terraform ${{ inputs.plan_or_apply }} -auto-approve -lock-timeout=5m -var "allowed_ip=${{ secrets.allowed_ip }}"
-        if: ${{ inputs.plan_or_apply }} == 'apply'
-
+      
      
