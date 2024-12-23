@@ -54,9 +54,9 @@ jobs:
           terraform workspace show
           if [[ ${{ inputs.directory }} = 'ephemeral' ]]
           then
-            terraform plan -lock-timeout=5m -auto-approve -var "allowed_ip=${{ secrets.allowed_ip }}"
+            terraform plan -lock-timeout=5m -var "allowed_ip=${{ secrets.allowed_ip }}"
           else
-            terraform plan -lock-timeout=5m -auto-approve
+            terraform plan -lock-timeout=5m
           fi
         if: ${{ inputs.plan_or_apply }} == 'plan'
 
@@ -68,9 +68,9 @@ jobs:
           terraform workspace show
           if [[ ${{ inputs.directory }} = 'ephemeral' ]]
           then
-            terraform plan -lock-timeout=5m -auto-approve -var "allowed_ip=${{ secrets.allowed_ip }}"
+            terraform plan -lock-timeout=5m -var "allowed_ip=${{ secrets.allowed_ip }}"
           else
-            terraform plan -lock-timeout=5m -auto-approve
+            terraform plan -lock-timeout=5m 
           fi
         if: ${{ inputs.plan_or_apply }} == 'apply'
       
