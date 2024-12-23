@@ -36,7 +36,7 @@ jobs:
         working-directory: terraform/ephemeral
         run: |
           terraform init
-          terraform destroy -auto-approve
+          terraform destroy -auto-approve -var "allowed_ip=${{ secrets.allowed_ip }}"
 
       
       
