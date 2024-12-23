@@ -1,4 +1,4 @@
-name: "[Workflow] Terraform Plan"
+name: "[Workflow] Terraform Plan/Apply"
 
 defaults:
   run:
@@ -15,7 +15,10 @@ on:
         description: 'Plan or Apply'
         required: true
         type: string
-
+    secrets:
+      allowed_ip:
+        description: 'Allowed IP'
+        required: false
 
 jobs:
   terraform_plan:
@@ -41,13 +44,35 @@ jobs:
           ls
           echo "Terraform directory: ${{ inputs.directory }}"
           terraform workspace show
-          terraform init -input=false
+          terraform init -input=false 
 
-      - name: Terraform plan and apply
+      - name: Terraform plan
         working-directory: terraform/${{ inputs.directory }}
         run: |
           echo "Directory: $GITHUB_WORKSPACE"
+          echo "Plan or apply: ${{ inputs.plan_or_apply }}"
           terraform workspace show
-          terraform ${{ inputs.plan_or_apply }} -auto-approve -lock-timeout=5m
+          if [[ ${{ inputs.directory }} = 'ephemeral' ]]
+          then
+            terraform plan -lock-timeout=5m -var "allowed_ip=${{ secrets.allowed_ip }}"
+          else
+            terraform plan -lock-timeout=5m
+          fi
+        if: ${{ inputs.plan_or_apply == 'plan' }}
 
+      - name: Terraform apply
+        working-directory: terraform/${{ inputs.directory }}
+        run: |
+          echo "Directory: $GITHUB_WORKSPACE"
+          echo "Plan or apply: ${{ inputs.plan_or_apply }}"
+          terraform workspace show
+          if [[ ${{ inputs.directory }} = 'ephemeral' ]]
+          then
+            terraform plan -lock-timeout=5m -auto-approve -var "allowed_ip=${{ secrets.allowed_ip }}"
+          else
+            terraform plan -lock-timeout=5m -auto-approve
+          fi
+        if: ${{ inputs.plan_or_apply == 'apply' }} 
+      
+      
      

@@ -27,7 +27,7 @@ resource "aws_security_group" "allow-web-traffic" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = [var.jay_ip]
+    cidr_blocks = [var.allowed_ip]
   }
 
   egress {
