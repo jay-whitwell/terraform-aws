@@ -1,4 +1,4 @@
 module "vpc" {
   source = "./vpc"
-  jay_ip = 
+  allowed_ip = var.allowed_ip
 }
