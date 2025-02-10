@@ -26,6 +26,13 @@ jobs:
           aws-region: eu-west-2
           role-duration-seconds: 1800
           role-session-name: TerraformGithubAction
+
+      - name: Set Terraform version
+        working-directory: terraform/${{ inputs.directory }}
+        id: set-terraform-version
+        run: |
+          TF_VERSION=$(cat .terraform-version)
+          echo "TF_VERSION=$TF_VERSION" >> $GITHUB_OUTPUT
       
       - name: Terraform Init
         working-directory: terraform/ephemeral
