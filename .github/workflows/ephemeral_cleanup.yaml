@@ -28,7 +28,7 @@ jobs:
           role-session-name: TerraformGithubAction
 
       - name: Set Terraform version
-        working-directory: terraform/${{ inputs.directory }}
+        working-directory: terraform/ephemeral
         id: set-terraform-version
         run: |
           TF_VERSION=$(cat .terraform-version)
