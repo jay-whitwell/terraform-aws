@@ -24,7 +24,7 @@ jobs:
         run: |
           echo "Directory: $GITHUB_WORKSPACE"
 
-      - name: Check changes to permanent infra
+      - name: Check changes to terraform
         uses: tj-actions/changed-files@v44
         id: terraform-changes
         with:
