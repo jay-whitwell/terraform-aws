@@ -98,7 +98,8 @@ jobs:
     if: |
       needs.workflow_variables.result.success == 'success' &&
       needs.workflow_variables.outputs.specific_path == 'ephemeral' ||
-      needs.workflow_variables.outputs.specific_path == 'terraform'
+      needs.workflow_variables.outputs.specific_path == 'terraform' ||
+      needs.workflow_variables.outputs.specific_path == 'all'
 
   terraform_apply_permanent:
     name: Terraform Apply Permanent
@@ -112,4 +113,5 @@ jobs:
     if: |
       needs.workflow_variables.result.success == 'success' &&
       needs.workflow_variables.outputs.specific_path == 'permanent' ||
-      needs.workflow_variables.outputs.specific_path == 'terraform'
+      needs.workflow_variables.outputs.specific_path == 'terraform' ||
+      needs.workflow_variables.outputs.specific_path == 'all'
