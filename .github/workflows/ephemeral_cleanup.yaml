@@ -23,6 +23,7 @@ jobs:
         run: |
           TF_VERSION=$(cat .terraform-version)
           echo "TF_VERSION=$TF_VERSION" >> $GITHUB_OUTPUT
+          echo "${TF_VERSION}"
 
       - uses: hashicorp/setup-terraform@v3.1.2
         with:
