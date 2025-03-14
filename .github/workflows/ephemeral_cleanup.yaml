@@ -27,7 +27,7 @@ jobs:
 
       - uses: hashicorp/setup-terraform@v3.1.2
         with:
-          terraform_version: ${{ steps.set_terraform_version.outputs.TF_VERSION }}
+          terraform_version: ${{ steps.set-terraform-version.outputs.TF_VERSION }}
 
       - name: Configure AWS credentials for Terraform
         uses: aws-actions/configure-aws-credentials@a78e788c51463a506fbaaec784bab37f73afb4e8
