@@ -18,7 +18,7 @@ jobs:
       - uses: unfor19/install-aws-cli-action@27d6061dae5d39e89be4d2246824f15e111a7e06
       
       - name: Set Terraform version
-        working-directory: terraform/${{ inputs.directory }}
+        working-directory: terraform/ephemeral
         id: set-terraform-version
         run: |
           TF_VERSION=$(cat .terraform-version)
