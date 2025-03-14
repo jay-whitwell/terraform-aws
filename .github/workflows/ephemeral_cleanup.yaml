@@ -16,7 +16,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: unfor19/install-aws-cli-action@27d6061dae5d39e89be4d2246824f15e111a7e06
+      
+      - name: Set Terraform version
+        working-directory: terraform/${{ inputs.directory }}
+        id: set-terraform-version
+        run: |
+          TF_VERSION=$(cat .terraform-version)
+          echo "TF_VERSION=$TF_VERSION" >> $GITHUB_OUTPUT
+
       - uses: hashicorp/setup-terraform@v3.1.2
+        with:
+          terraform_version: ${{ steps.set_terraform_version.outputs.TF_VERSION }}
 
       - name: Configure AWS credentials for Terraform
         uses: aws-actions/configure-aws-credentials@a78e788c51463a506fbaaec784bab37f73afb4e8
@@ -27,13 +37,6 @@ jobs:
           role-duration-seconds: 1800
           role-session-name: TerraformGithubAction
 
-      - name: Set Terraform version
-        working-directory: terraform/ephemeral
-        id: set-terraform-version
-        run: |
-          TF_VERSION=$(cat .terraform-version)
-          echo "TF_VERSION=$TF_VERSION" >> $GITHUB_OUTPUT
-      
       - name: Terraform Init
         working-directory: terraform/ephemeral
         run: |
